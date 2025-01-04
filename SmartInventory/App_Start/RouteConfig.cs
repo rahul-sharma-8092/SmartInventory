@@ -14,6 +14,7 @@ namespace SmartInventory
             //settings.AutoRedirectMode = RedirectMode.Permanent;
             //routes.EnableFriendlyUrls(settings);
 
+            routes.Ignore("{resource}.axd/{*pathInfo}");
             routes.Ignore("Content/{*pathInfo}");
             routes.Ignore("Scrpts/{*pathInfo}");
             routes.Ignore("Template/{*pathInfo}");

@@ -150,6 +150,5 @@
         </div>
     </form>
 
-    <%: System.Web.Optimization.Scripts.Render("~/bundles/JqueryPopperBootStrap") %>
 </body>
 </html>
