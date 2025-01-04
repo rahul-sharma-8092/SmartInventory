@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error | Smart Inventory | Rahul Sharma</title>
+    <style>
+        body{font-family:Arial,sans-serif;margin:0;padding:0;background-color:#f9f9f9}
+        .container{max-width:600px;margin:20px auto;padding:20px;background-color:#fff;border:1px solid #ddd;border-radius:5px;box-shadow:0 0 10px rgb(0 0 0 / .1)}
+        h2{color:#00c1d6;font-size:25px;text-align:center}
+        h1{text-decoration:underline;color:#ff4d4d;font-size:22px;margin-bottom:20px;text-align:center}
+        p{margin:10px 0}
+        .label{font-weight:700;color:#333}
+        .value{color:#555}
+        .stacktrace{background-color:#f4f4f4;padding:10px;border:1px solid #ccc;border-radius:5px;font-family:Consolas,monospace;font-size:14px;overflow-x:auto}
+        .footer{text-align:center;margin-top:20px;font-size:12px;color:#888}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Smart Inventory | Rahul Sharma</h2>
+        <h1>Application Error Notification</h1>
+        <p><span class="label">Time:</span> <span class="value">{{time}}</span></p>
+        <p><span class="label">URL:</span> <span class="value">{{url}}</span></p>
+        <p><span class="label">Browser:</span> <span class="value">{{browser}}</span></p>
+        <p><span class="label">User IP:</span> <span class="value">{{userIp}}</span></p>
+        <p><span class="label">Error Message:</span> <span class="value">{{errorMessage}}</span></p>
+        <p><span class="label">Inner Exception:</span> <span class="value">{{innerException}}</span></p>
+        <p><span class="label">Stack Trace:</span></p>
+        <div class="stacktrace">{{stackTrace}}</div>
+        <div class="footer">
+            <p>This is an automated email from <b>Smart Inventory</b> error notification system.</p>
+        </div>
+    </div>
+</body>
+</html>

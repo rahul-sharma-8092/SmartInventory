@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace SmartInventory
 {
-    public partial class _Default : Page
+    public partial class FreeTrail : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Redirect("Home/Login.aspx");
+
         }
     }
 }

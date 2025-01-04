@@ -15,6 +15,7 @@
     [CreatedAT]      DATETIME       DEFAULT (getdate()) NULL,
     [UpdatedAT]      DATETIME       NULL,
     [IsDeleted]      BIT            DEFAULT ((0)) NULL,
+    [Status]         INT            DEFAULT ((0)) NULL,
     PRIMARY KEY CLUSTERED ([UserID] ASC),
     UNIQUE NONCLUSTERED ([Email] ASC)
 );

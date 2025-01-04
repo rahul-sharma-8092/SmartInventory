@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SmartInventory
+namespace SmartInventory.Home
 {
 
 
-    public partial class _Default
+    public partial class Default
     {
     }
 }
