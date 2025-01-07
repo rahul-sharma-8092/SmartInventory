@@ -14,12 +14,21 @@ namespace SmartInventory.Home
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User != null && HttpContext.Current.User.Identity.IsAuthenticated)
+            StoreDetails = new BAL.AccountMgt().GetStoreDetails(StoreUserName);
+            if (StoreDetails != null && StoreDetails.Status == 1)
             {
-                Response.Redirect("~/" + StoreUserName + PageURL.Dashboard);
+                if (HttpContext.Current.User != null && HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    Response.Redirect("~/" + StoreUserName + PageURL.Dashboard);
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                }
             }
             else
             {
+                //Store Not Active
                 FormsAuthentication.SignOut();
             }
         }
@@ -28,22 +37,43 @@ namespace SmartInventory.Home
         {
             if (Page.IsValid)
             {
-                AuthDetails obj = new BAL.AccountMgt().GetUserAuthDetails(txtEmail.Text);
+                AuthDetails obj = new BAL.AccountMgt().GetUserAuthDetails(txtEmail.Text, StoreUserName);
                 if (obj != null && !string.IsNullOrEmpty(obj.Email))
                 {
                     obj.IsAuthenticated = Common.Security.BCryptVerify(txtPassword.Text.Trim(), obj.Password);
 
-                    if (obj.IsAuthenticated)
+                    if (obj.IsAuthenticated && obj.Status != 1)
                     {
-                        string data = obj.UserID.ToString() + "|" + obj.Email;
-                        Session["LoggedInUser"] = data;
+                        //Show Notification - Account Not Active
+                    }
+                    else if (obj.IsAuthenticated && obj.IsTempBlocked)
+                    {
+                        //Show Notification - Account Temporarily Blocked. Try again after 10 min.
+                    }
+                    else if (obj.IsAuthenticated && obj.Status == 1)
+                    {
+                        // Everything is fine Proceed to Dashboard
+                        obj.Password = "";
+                        Session["LoggedInUser"] = obj;
 
+                        if (obj.Is2FAEnabled)
+                        {
+                            Response.Redirect("~/" + StoreUserName + PageURL.Verification2FA);
+                        }
+                        else if (obj.IsOTPEnabled)
+                        {
+                            Response.Redirect("~/" + StoreUserName + PageURL.SmsEmailVerification);
+                        }
                         Response.Redirect("~/" + StoreUserName + PageURL.Default);
                     }
                     else
                     {
                         //Show Notification - Invalid Credentials
                     }
+                }
+                else
+                {
+                    //Show Notification - Invalid Credentials
                 }
             }
         }

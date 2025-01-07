@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>SmartInventoryDB</Name>
+    <Name>StoreDB</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{3d2f9fd8-c1f4-4072-a2c7-e630a5c22d89}</ProjectGuid>
@@ -62,12 +62,17 @@
     <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Users.sql" />
     <Build Include="dbo\Tables\LogTable.sql" />
     <Build Include="Security\JarvisSQL.sql" />
     <Build Include="Security\JarvisAI.sql" />
     <Build Include="Security\RoleMemberships.sql" />
-    <Build Include="dbo\Stored Procedures\GetUserFullDetails.sql" />
     <Build Include="dbo\Stored Procedures\GetUserAuthDetailsByEmail.sql" />
+    <Build Include="dbo\Tables\StoreUser.sql" />
+    <Build Include="dbo\Tables\LoginHistory.sql" />
+    <Build Include="dbo\Tables\ForgotPasswordRequest.sql" />
+    <Build Include="dbo\Tables\ErrorLog.sql" />
+    <Build Include="dbo\Tables\EmailHistory.sql" />
+    <Build Include="dbo\Stored Procedures\AddStoreUserOTP.sql" />
+    <Build Include="dbo\Stored Procedures\AddEmailHistoryWithOTP.sql" />
   </ItemGroup>
 </Project>

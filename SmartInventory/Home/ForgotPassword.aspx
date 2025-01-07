@@ -4,6 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Forgot Password - SmartInventory</title>
+
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryy") %>
     <!-- Link to Bootstrap CSS -->
     <link href="../Content/bootstrap4.5.2.min.css" rel="stylesheet" />
     <!-- Custom Styles -->
@@ -146,6 +148,5 @@
         </div>
     </form>
 
-    <%: System.Web.Optimization.Scripts.Render("~/bundles/JqueryPopperBootStrap") %>
 </body>
 </html>

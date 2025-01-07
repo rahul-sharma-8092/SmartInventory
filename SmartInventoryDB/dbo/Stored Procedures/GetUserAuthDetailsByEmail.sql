@@ -2,11 +2,18 @@
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
+-- EXEC GetUserAuthDetailsByEmail 'rahulsh8092@gmail.com'
 -- =============================================
 CREATE   PROCEDURE GetUserAuthDetailsByEmail
-	@Email NVARCHAR(100)
+	@Email NVARCHAR(255)
 AS
 BEGIN
-	SELECT UserID, LTRIM(RTRIM(FirstName)) AS FirstName, LTRIM(RTRIM(LastName)) AS LastName, LTRIM(RTRIM(Email)) AS Email,
-	LTRIM(RTRIM([Password])) AS [Password], RoleId, LTRIM(RTRIM([Role])) AS [Role] FROM Users WHERE Email = @Email
+		
+	Select StoreUserID, CONCAT(FirstName, ' ', LastName) AS FullName, Email, [Password], GroupId, Mobile, [Status], 
+	ForceUpdatePassword, Is2FAEnabled, IsOTPEnabled, 
+	IIF(WrongLoginAttempt >= 5 AND DATEDIFF(MINUTE, ISNULL(LoginAttemptTime, GETDATE()), GETDATE()) < 10, 1, 0) AS IsTempBlocked,
+	IIF(ISNULL(ForceUpdatePassword,0) = 1 AND DATEDIFF(DAY, ISNULL(LastModifiedPassword, GETDATE()), GETDATE()) < 30, 1, 0) AS ForceUpdatePassword
+	
+	FROM StoreUser WITH (NOLOCK) WHERE Email = @Email AND IsDeleted = 0;
+
 END

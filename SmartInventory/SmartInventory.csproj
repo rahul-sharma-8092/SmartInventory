@@ -134,6 +134,7 @@
     <Content Include="favicon.ico" />
     <Content Include="FreeTrail.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Home\2FAVerification.aspx" />
     <Content Include="Home\ChangePassword.aspx" />
     <Content Include="Home\Customers\AddEditCustomer.aspx" />
     <Content Include="Home\Customers\CustomersList.aspx" />
@@ -213,7 +214,8 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
-    <Content Include="Template\ErrorMail.html" />
+    <Content Include="Template\Email\EmailOTP.html" />
+    <Content Include="Template\Email\ErrorMail.html" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -237,6 +239,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Home\2FAVerification.aspx.cs">
+      <DependentUpon>2FAVerification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home\2FAVerification.aspx.designer.cs">
+      <DependentUpon>2FAVerification.aspx</DependentUpon>
     </Compile>
     <Compile Include="Home\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>

@@ -57,7 +57,7 @@ namespace SmartInventory
                 email.Subject = "Smart Inventory - Error Notification";
                 email.IsHtml = true;
 
-                string templatePath = HttpContext.Current.Server.MapPath("~/Template/ErrorMail.html");
+                string templatePath = HttpContext.Current.Server.MapPath("~/Template/Email/ErrorMail.html");
                 string htmlTemplate = File.ReadAllText(templatePath);
 
                 email.Body = htmlTemplate
@@ -72,7 +72,7 @@ namespace SmartInventory
                 Common.EmailService.SendEmail(email);
 
                 Server.ClearError();
-                Response.Redirect("~/" + GetStoreUserName() + PageURL.PageNotFound);
+                //Response.Redirect("~/" + GetStoreUserName() + PageURL.PageNotFound);
             }
         }
 

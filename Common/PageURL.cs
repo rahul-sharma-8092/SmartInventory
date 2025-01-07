@@ -21,6 +21,7 @@ namespace Common
         public const string Login = "/Home/Login.aspx";
         public const string Register = "/Home/Register.aspx";
         public const string Setup2FA = "/Home/Setup2FA.aspx";
+        public const string Verification2FA = "/Home/2FAVerification.aspx";
         public const string SmsEmailVerification = "/Home/SmsEmailVerification.aspx";
 
         // Customers

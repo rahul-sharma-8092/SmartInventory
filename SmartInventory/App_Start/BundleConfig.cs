@@ -36,6 +36,10 @@ namespace SmartInventory
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                             "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/JQueryy").Include(
+                            "~/Scripts/jquery-3.7.0.min.js"
+                        ));
+
             BundleTable.EnableOptimizations = true;
         }
 

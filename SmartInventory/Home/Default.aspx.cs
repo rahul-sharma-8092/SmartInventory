@@ -12,23 +12,20 @@ namespace SmartInventory.Home
 {
     public partial class Default : CommonFunc.PageBase
     {
+        AuthDetails data = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string data = string.Empty;
-
             if (Session["LoggedInUser"] != null)
             {
-                data = Session["LoggedInUser"].ToString().Trim();
+                data = (AuthDetails)Session["LoggedInUser"];
                 Session["LoggedInUser"] = null;
             }
 
             if (HttpContext.Current.User == null || !HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                if (!string.IsNullOrEmpty(data))
+                if (data != null && !string.IsNullOrEmpty(data.Email))
                 {
-                    string userId = data.Split('|')[0];
-                    string email = data.Split('|')[1];
-                    CreateUserTicket(email, Convert.ToInt32(userId));
+                    CreateUserTicket(data);
                 }
                 else
                 {
@@ -38,19 +35,16 @@ namespace SmartInventory.Home
             }
         }
 
-        private void CreateUserTicket(string email, int userId, bool IsRememberMe = false)
+        private void CreateUserTicket(AuthDetails auth)
         {
-            Authentication obj = new BAL.AccountMgt().GetUserFullDetails(email, userId);
-            if (obj != null && !string.IsNullOrEmpty(obj.Email))
+            if (auth != null && !string.IsNullOrEmpty(auth.Email))
             {
-                string userName = obj.FirstName + " " + obj.LastName;
-                string userData = obj.UserID.ToString() + "|" + //UserID
-                                  userName + "|" + //UserName
-                                  obj.Email + "|" + //Email
-                                  obj.RoleId + "|" + //RoleID
-                                  obj.Role; //RoleName
+                string userData = auth.StoreUserID.ToString() + "|" + // StoreUserID
+                                  auth.FullName + "|" + // UserName
+                                  auth.Email + "|" + // Email
+                                  auth.GroupId + "|";  // GroupId
 
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, userName, DateTime.Now, DateTime.Now.AddMinutes(30), IsRememberMe, userData);
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, auth.FullName, DateTime.Now, DateTime.Now.AddMinutes(30), false, userData);
 
                 string encryptedTicket = FormsAuthentication.Encrypt(ticket);
                 HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)

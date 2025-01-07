@@ -22,9 +22,19 @@ namespace Entity
 
     public class AuthDetails
     {
-        public int UserID { get; set; }
+        public int StoreUserID { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool IsAuthenticated { get; set; }
+        public int GroupId { get; set; }
+        public string Mobile { get; set; }
+        public int Status { get; set; }
+        public bool ForceUpdatePassword { get; set; }
+        public bool IsTempBlocked { get; set; }
+        public bool Is2FAEnabled { get; set; }
+        public bool IsOTPEnabled { get; set; }
+
+
     }
 }

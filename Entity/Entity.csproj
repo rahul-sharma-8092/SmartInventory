@@ -46,6 +46,7 @@
     <Compile Include="EmailMsg.cs" />
     <Compile Include="EmpUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoreDetails.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
