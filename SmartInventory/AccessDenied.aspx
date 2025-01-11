@@ -27,6 +27,8 @@
             margin-top: 20px;
         }
     </style>
+
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
 </head>
 <body>
     <form id="form1" runat="server">

@@ -142,6 +142,8 @@
     <Content Include="Home\Default.aspx" />
     <Content Include="Home\ForceUpdatePassword.aspx" />
     <Content Include="Home\ForgotPassword.aspx" />
+    <Content Include="Home\JS\CommonJs.js" />
+    <Content Include="Home\JS\SiteMaster.js" />
     <Content Include="Home\Login.aspx" />
     <Content Include="Home\Products\AddEditProduct.aspx" />
     <Content Include="Home\Products\ProductsList.aspx" />
@@ -216,6 +218,8 @@
     <Content Include="Site.Master" />
     <Content Include="Template\Email\EmailOTP.html" />
     <Content Include="Template\Email\ErrorMail.html" />
+    <Content Include="Template\Email\PasswordChanged.html" />
+    <Content Include="Template\Email\ResetPassword.html" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -431,7 +435,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Home\CSS\" />
     <Folder Include="Home\Handler\" />
-    <Folder Include="Home\JS\" />
     <Folder Include="Home\Reports\" />
     <Folder Include="Home\Shared\" />
   </ItemGroup>

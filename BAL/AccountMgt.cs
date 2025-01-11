@@ -17,7 +17,7 @@ namespace BAL
 
         public AuthDetails GetUserAuthDetails(string email, string StoreUserName)
         {
-           return new AccountSQL().GetUserAuthDetails(email, StoreUserName);
+            return new AccountSQL().GetUserAuthDetails(email, StoreUserName);
         }
 
         public Authentication GetUserFullDetails(string email, int userId, string StoreUserName)
@@ -33,6 +33,26 @@ namespace BAL
         public bool AddEmailHistoryWithOTP(EmailMsg email, int userId, string OTP, string StoreUserName)
         {
             return new AccountSQL().AddEmailHistoryWithOTP(email, userId, OTP, StoreUserName);
+        }
+
+        public int VerifyOTP(int StoreUserId, string Email, string Otp, string StoreUserName)
+        {
+            return new AccountSQL().VerifyOTP(StoreUserId, Email, Otp, StoreUserName);
+        }
+
+        public ForgotPassword GetPassResetLink(string Email, string IpAddress, string StoreUserName)
+        {
+            return new AccountSQL().GetPassResetLink(Email, IpAddress, StoreUserName);
+        }
+
+        public SetPassword ValidateResetPassToken(string token, string StoreUserName)
+        {
+            return new AccountSQL().ValidateResetPassToken(token,StoreUserName);
+        }
+
+        public bool SetPassword(SetPassword setPassword, string StoreUserName)
+        {
+            return new AccountSQL().SetPassword(setPassword, StoreUserName);
         }
     }
 }

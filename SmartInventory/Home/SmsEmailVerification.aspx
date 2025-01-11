@@ -5,7 +5,7 @@
 <head runat="server">
     <title>Email Verification | Smart Inventory | Rahul Sharma</title>
 
-    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryy") %>
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
     <link href="../Content/bootstrap4.5.2.min.css" rel="stylesheet" />
 
     <style>
@@ -225,5 +225,6 @@
             $('#errorMessage').hide();
         }
     </script>
+
 </body>
 </html>

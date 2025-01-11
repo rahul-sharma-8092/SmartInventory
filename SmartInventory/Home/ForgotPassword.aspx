@@ -5,7 +5,7 @@
 <head runat="server">
     <title>Forgot Password - SmartInventory</title>
 
-    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryy") %>
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
     <!-- Link to Bootstrap CSS -->
     <link href="../Content/bootstrap4.5.2.min.css" rel="stylesheet" />
     <!-- Custom Styles -->

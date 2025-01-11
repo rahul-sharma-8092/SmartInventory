@@ -74,5 +74,9 @@
     <Build Include="dbo\Tables\EmailHistory.sql" />
     <Build Include="dbo\Stored Procedures\AddStoreUserOTP.sql" />
     <Build Include="dbo\Stored Procedures\AddEmailHistoryWithOTP.sql" />
+    <Build Include="dbo\Stored Procedures\VerifyOTP.sql" />
+    <Build Include="dbo\Stored Procedures\GetPassResetLink.sql" />
+    <Build Include="dbo\Stored Procedures\ValidateResetPassToken.sql" />
+    <Build Include="dbo\Stored Procedures\SetPassword.sql" />
   </ItemGroup>
 </Project>

@@ -14,6 +14,12 @@ namespace SmartInventory.Home
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["PasswordChanged"] != null)
+            {
+                Session["PasswordChanged"] = null;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Common.Message.PasswordChanged}', 'success');", true);
+            }
+
             StoreDetails = new BAL.AccountMgt().GetStoreDetails(StoreUserName);
             if (StoreDetails != null && StoreDetails.Status == 1)
             {
@@ -30,6 +36,7 @@ namespace SmartInventory.Home
             {
                 //Store Not Active
                 FormsAuthentication.SignOut();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.StoreNotActive}', 'error');", true);
             }
         }
 
@@ -45,9 +52,11 @@ namespace SmartInventory.Home
                     if (obj.IsAuthenticated && obj.Status != 1)
                     {
                         //Show Notification - Account Not Active
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.AccountLocked}', 'error');", true);
                     }
                     else if (obj.IsAuthenticated && obj.IsTempBlocked)
                     {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.AccountTempBlocked}', 'error');", true);
                         //Show Notification - Account Temporarily Blocked. Try again after 10 min.
                     }
                     else if (obj.IsAuthenticated && obj.Status == 1)
@@ -69,11 +78,13 @@ namespace SmartInventory.Home
                     else
                     {
                         //Show Notification - Invalid Credentials
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.InvalidLogin}', 'error');", true);
                     }
                 }
                 else
                 {
                     //Show Notification - Invalid Credentials
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.InvalidLogin}', 'error');", true);
                 }
             }
         }

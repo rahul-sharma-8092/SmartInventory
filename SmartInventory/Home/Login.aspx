@@ -6,6 +6,7 @@
     <title>Login - Smart Inventory</title>
     <!-- Link to Bootstrap CSS -->  
     <link href="../Content/bootstrap4.5.2.min.css" rel="stylesheet" />
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
     <!-- Custom Styles -->
     <style>
         body {

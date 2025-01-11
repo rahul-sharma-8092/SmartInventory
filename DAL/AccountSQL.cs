@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -159,6 +160,168 @@ namespace DAL
             {
                 returnBool = false;
                 WriteExceptionLog(ex, "AccountSQL.AddEmailHistoryWithOTP");
+                throw;
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+            return returnBool;
+        }
+
+        public int VerifyOTP(int StoreUserId, string Email, string Otp, string StoreUserName)
+        {
+            connString = CreateConnString(StoreUserName);
+
+            int returnVal = 0;
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "VerifyOTP";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StoreUserId", StoreUserId);
+                cmd.Parameters.AddWithValue("@Email", Email);
+                cmd.Parameters.AddWithValue("@Otp", Otp);
+                SqlParameter returnParm = new SqlParameter("@ReturnVal", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(returnParm);
+
+                cmd.ExecuteNonQuery();
+                returnVal = (int)cmd.Parameters["@ReturnVal"].Value;
+            }
+            catch (Exception ex)
+            {
+                returnVal = 0;
+                WriteExceptionLog(ex, "AccountSQL.VerifyOTP");
+                throw;
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+            return returnVal;
+        }
+
+        public ForgotPassword GetPassResetLink(string Email, string IpAddress, string StoreUserName)
+        {
+            ForgotPassword obj = new ForgotPassword();
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "GetPassResetLink";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Email", Email);
+                cmd.Parameters.AddWithValue("@IpAddress", IpAddress);
+                cmd.Parameters.AddWithValue("@Guid", Guid.NewGuid().ToString());
+                
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        obj.ReturnCode = GetFieldInt(reader, "ReturnCode");
+                        obj.FullName = GetField(reader, "FullName");
+                        obj.Email = GetField(reader, "Email");
+                        obj.Guid = GetField(reader, "Guid");
+                        obj.GuidTimeStamp = GetFieldDate(reader, "GuidTimeStamp");
+                        obj.IsGuidExpired = GetFieldBool(reader, "IsGuidExpired");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                obj.ReturnCode = 0;
+                WriteExceptionLog(ex, "AccountSQL.GetPassResetLink");
+                throw;
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+            return obj;
+        }
+
+        public SetPassword ValidateResetPassToken(string token, string StoreUserName)
+        {
+            SetPassword obj = new SetPassword();
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "ValidateResetPassToken";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Token", token);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    obj.Guid = token;
+                    obj.IsGuidExpired = true;
+
+                    if (reader.HasRows)
+                    {
+                        obj.ReturnCode = GetFieldInt(reader, "ReturnCode");
+                        obj.StoreUserId = GetFieldInt(reader, "StoreUserId");
+                        obj.FullName = GetField(reader, "FullName");
+                        obj.Email = GetField(reader, "Email");
+                        obj.IsGuidExpired = GetFieldBool(reader, "IsGuidExpired");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                obj.ReturnCode = 0;
+                WriteExceptionLog(ex, "AccountSQL.ValidateResetPassToken");
+                throw;
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+            return obj;
+        }
+
+        public bool SetPassword(SetPassword setPassword, string StoreUserName)
+        {
+            bool returnBool = false;
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "SetPassword";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StoreUserId", setPassword.StoreUserId);
+                cmd.Parameters.AddWithValue("@Email", setPassword.Email);
+                cmd.Parameters.AddWithValue("@Password", setPassword.Password);
+
+                returnBool = cmd.ExecuteNonQuery() > 0;
+            }
+            catch (Exception ex)
+            {
+                returnBool = false;
+                WriteExceptionLog(ex, "AccountSQL.SetPassword");
                 throw;
             }
             finally

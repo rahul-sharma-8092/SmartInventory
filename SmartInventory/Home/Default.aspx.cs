@@ -23,11 +23,16 @@ namespace SmartInventory.Home
 
             if (HttpContext.Current.User == null || !HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                if (data != null && !string.IsNullOrEmpty(data.Email))
+                // User verified with OTP
+                if (data != null && !string.IsNullOrEmpty(data.Email) && data.IsOTPEnabled && data.IsOTPVerified)
                 {
                     CreateUserTicket(data);
                 }
-                else
+                else if (data != null && !string.IsNullOrEmpty(data.Email) && !data.IsOTPEnabled) // User OTP Verification not enabled
+                {
+                    CreateUserTicket(data);
+                }
+                else // User Not Authenticated
                 {
                     FormsAuthentication.SignOut();
                     Response.Redirect("~/" + StoreUserName + PageURL.Login);
