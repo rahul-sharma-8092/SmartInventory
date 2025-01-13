@@ -62,6 +62,6 @@
         </div>
     </form>
 
-   <script src="Scripts/jquery-3.7.0.min.js"></script>
+   <script src="Scripts/jquery-3.7.1.min.js"></script>
 </body>
 </html>

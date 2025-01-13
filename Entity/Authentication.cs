@@ -33,6 +33,7 @@ namespace Entity
         public bool ForceUpdatePassword { get; set; }
         public bool IsTempBlocked { get; set; }
         public bool Is2FAEnabled { get; set; }
+        public bool Is2FAVerified { get; set; }
         public bool IsOTPEnabled { get; set; }
         public bool IsOTPVerified { get; set; }
 
@@ -58,6 +59,17 @@ namespace Entity
         public string ConfirmPassword { get; set; }
         public string Guid { get; set; }
         public bool IsGuidExpired { get; set; }
+        public int ReturnCode { get; set; }
+    }
+
+    public class TotpUserData
+    {
+        public int StoreUserId { get; set; }
+        public string Email { get; set; }
+        public string FullName { get; set; }
+        public string SecretKey { get; set; }
+        public bool Is2FAEnabled { get; set; }
+        public bool Is2FAVerified { get; set; }
         public int ReturnCode { get; set; }
     }
 }

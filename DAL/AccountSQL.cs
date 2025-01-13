@@ -330,5 +330,68 @@ namespace DAL
             }
             return returnBool;
         }
+
+        public int AddStoreUserTOTP(TotpUserData objData, string StoreUserName)
+        {
+            int returnVal = 0;
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "AddStoreUserTOTP";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StoreUserId", objData.StoreUserId);
+                cmd.Parameters.AddWithValue("@Email", objData.Email);
+                cmd.Parameters.AddWithValue("@SecretKey", objData.SecretKey);
+
+                returnVal = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                returnVal = 0;
+                WriteExceptionLog(ex, "AccountSQL.AddStoreUserTOTP");
+                throw;
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+            return returnVal;
+        }
+
+        public string GetUserTotpSecretKey(int StoreUserId, string StoreUserName)
+        {
+            string secretKey = "";
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "GetUserTotpSecretKey";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StoreUserId", StoreUserId);
+
+                secretKey = cmd.ExecuteScalar().ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                WriteExceptionLog(ex, "AccountSQL.GetUserTotpSecretKey");
+                throw;
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+            return secretKey;
+        }
     }
 }

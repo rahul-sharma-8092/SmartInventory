@@ -24,6 +24,8 @@
     [ImagePath]            NVARCHAR (4000) NULL,
     [OTP]                  NVARCHAR (10)   NULL,
     [OTPTimeStamp]         DATETIME        DEFAULT (getdate()) NULL,
+    [SecretKey2FA]         NVARCHAR (255)  NULL,
+    [TimeStamp2FA]         DATETIME        NULL,
     PRIMARY KEY CLUSTERED ([StoreUserID] ASC),
     UNIQUE NONCLUSTERED ([Email] ASC)
 );

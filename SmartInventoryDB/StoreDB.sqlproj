@@ -78,5 +78,7 @@
     <Build Include="dbo\Stored Procedures\GetPassResetLink.sql" />
     <Build Include="dbo\Stored Procedures\ValidateResetPassToken.sql" />
     <Build Include="dbo\Stored Procedures\SetPassword.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserTotpSecretKey.sql" />
+    <Build Include="dbo\Stored Procedures\AddStoreUserTOTP.sql" />
   </ItemGroup>
 </Project>

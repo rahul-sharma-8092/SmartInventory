@@ -20,5 +20,17 @@ namespace SmartInventory.Home.CommonFunc
                 StoreUserName = RouteData.Values["StoreUserName"].ToString();
             }
         }
+
+        internal string[] GetUserData()
+        {
+            string[] userData = new String[10];
+            if (HttpContext.Current.User != null && HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                // StoreUserId|UserName|Email|GroupId
+                // 1001|Tony Stark|tonystark@armyspy.com|1|
+                userData = ((System.Web.Security.FormsIdentity)HttpContext.Current.User.Identity).Ticket.UserData.Split('|');
+            }
+            return userData;
+        }
     }
 }

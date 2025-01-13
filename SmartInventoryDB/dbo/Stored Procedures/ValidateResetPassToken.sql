@@ -3,7 +3,7 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE   PROCEDURE ValidateResetPassToken
+CREATE   PROCEDURE [dbo].[ValidateResetPassToken]
 	@Token NVARCHAR(100)
 AS
 BEGIN

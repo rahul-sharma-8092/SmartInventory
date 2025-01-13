@@ -28,6 +28,10 @@ namespace SmartInventory.Home
                 {
                     CreateUserTicket(data);
                 }
+                else if (data != null && !string.IsNullOrEmpty(data.Email) && data.Is2FAEnabled && data.Is2FAVerified) // User verified with TOTP
+                {
+                    CreateUserTicket(data);
+                }
                 else if (data != null && !string.IsNullOrEmpty(data.Email) && !data.IsOTPEnabled) // User OTP Verification not enabled
                 {
                     CreateUserTicket(data);

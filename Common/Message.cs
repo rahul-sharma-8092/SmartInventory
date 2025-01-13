@@ -35,6 +35,9 @@ namespace Common
         public const string OTPVerified = "OTP verification successful.";
         public const string OTPInvalid = "Invalid OTP. Please try again.";
         public const string OTPExpired = "OTP has been expired. Please resend.";
+        public const string InvalidCode = "Invalid Code. Please try again.";
+        public const string Added2FA = "Two-factor authentication (TOTP) has been enabled for your account.";
+        public const string NotSetup2FA = "Two-factor authentication (TOTP) has not been setup for your account.";
 
         // Password Messages
         public const string PasswordChanged = "Your password has been successfully changed.";

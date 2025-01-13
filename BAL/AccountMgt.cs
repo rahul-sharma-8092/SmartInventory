@@ -54,5 +54,15 @@ namespace BAL
         {
             return new AccountSQL().SetPassword(setPassword, StoreUserName);
         }
+
+        public int AddStoreUserTOTP(TotpUserData obj, string StoreUserName)
+        {
+            return new AccountSQL().AddStoreUserTOTP(obj, StoreUserName);
+        }
+
+        public string GetUserTotpSecretKey(int StoreUserId, string StoreUserName)
+        {
+            return new AccountSQL().GetUserTotpSecretKey(StoreUserId, StoreUserName);
+        }
     }
 }

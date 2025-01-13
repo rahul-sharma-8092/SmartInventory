@@ -55,12 +55,13 @@
             </div>
         </nav>
         <div class="container body-content">
+            <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
     <asp:PlaceHolder runat="server">
-        <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
+            <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
 </body>
