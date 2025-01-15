@@ -1,13 +1,8 @@
 ﻿using Entity;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -136,9 +131,46 @@ namespace DAL
 
         internal void WriteExceptionLog(Exception ex, string method)
         {
-            string message = "Error in " + method + ":: Message=" + (ex.Message.ToString() ?? "") + " StackTrace=" + (ex.StackTrace.ToString() ?? "") + " InnerException=" + (ex.InnerException.ToString() ?? "");
+            string message = "Error in " + method + ":: Message='" + (Convert.ToString(ex.Message) ?? "").Trim() + "' StackTrace='" + (Convert.ToString(ex.StackTrace) ?? "").Trim() + "' InnerException='" + (Convert.ToString(ex.InnerException) ?? "").Trim() + "'";
 
             Common.FileLogger.WriteLog("DAL Error", message);
+        }
+
+        public void LogErrorToDB(ExecptionErrror obj, string StoreUserName)
+        {
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "AddErrorLog";
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                cmd.Parameters.AddWithValue("@Message", obj.Message);
+                cmd.Parameters.AddWithValue("@StackTrace", obj.StackTrace);
+                cmd.Parameters.AddWithValue("@InnerException", obj.InnerException);
+                cmd.Parameters.AddWithValue("@URL", obj.URL);  
+                cmd.Parameters.AddWithValue("@IpAddress", obj.IpAddress);  
+                cmd.Parameters.AddWithValue("@Browser", obj.Browser);  
+                cmd.Parameters.AddWithValue("@LogLevel", obj.LogLevel);
+                cmd.Parameters.AddWithValue("@UserId", obj.UserId);
+                
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                string msg = $"Error in BaseSQL.LogErrorToDB:: Catch - {ex.Message} \n|| Message:: {obj.Message} || StackTrace:: {obj.StackTrace} || InnerException:: {obj.InnerException} || URL:: {obj.URL} || IpAddress:: {obj.IpAddress} || Browser:: {obj.Browser}";
+
+                Common.FileLogger.WriteLog("BaseSQL", msg);
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
         }
     }
 }

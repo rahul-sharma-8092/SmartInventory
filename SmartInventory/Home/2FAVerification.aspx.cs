@@ -31,7 +31,7 @@ namespace SmartInventory.Home
 
         protected void BtnVerify_Click(object sender, EventArgs e)
         {
-            string secretKey = new BAL.AccountMgt().GetUserTotpSecretKey(data.StoreUserID, StoreUserName);
+            string secretKey = BAL.AccountMgt.GetUserTotpSecretKey(data.StoreUserID, StoreUserName);
             string code = txtCode.Text.Trim();
 
             if (string.IsNullOrEmpty(secretKey))
@@ -56,6 +56,7 @@ namespace SmartInventory.Home
             else
             {
                 data.IsOTPVerified = false;
+                BAL.AccountMgt.TrackLoginHistory(StoreUserName, data.Email, IpAddress, true, data.StoreUserID);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.OTPInvalid}', 'error');", true);
             }
         }

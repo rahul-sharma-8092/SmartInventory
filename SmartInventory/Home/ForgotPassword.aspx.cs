@@ -22,15 +22,8 @@ namespace SmartInventory.Home
         protected void btnReset_Click(object sender, EventArgs e)
         {
             string email = txtEmail.Text.Trim().ToLower();
-
-            string IpAddress = Request.ServerVariables["REMOTE_ADDR"];
-            // Check for proxy headers
-            if (Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
-            {
-                IpAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"].Split(',')[0].Trim();
-            }
-
-            Entity.ForgotPassword obj = new BAL.AccountMgt().GetPassResetLink(email, IpAddress, StoreUserName);
+            
+            Entity.ForgotPassword obj = BAL.AccountMgt.GetPassResetLink(email, IpAddress, StoreUserName);
 
             if (obj != null && obj.ReturnCode == 1)
             {

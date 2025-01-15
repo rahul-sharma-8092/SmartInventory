@@ -6,15 +6,21 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> | Rahul Sharma</title>
+    <title><%: Page.Title %> | Smart-Inventory | Rahul Sharma</title> 
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    
     <asp:PlaceHolder runat="server">
+        <%: Styles.Render("~/bundles/kendoDefaultCSS") %>
+        <%: Styles.Render("~/bundles/kendoDatavizCSS") %>
+        <%: Styles.Render("~/bundles/SiteMasterCSS") %>
+        
+        <%: Scripts.Render("~/bundles/JQueryWithCommonJS") %>
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
     <form runat="server">
@@ -39,30 +45,32 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Smart Inventory( <%: StoreUserName %> )</a>
+                <a id="lnkLogo" class="navbar-brand" runat="server">Smart Inventory( <%: StoreUserName %> )</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
+                        <li class="nav-item"><a id="lnkHome" class="nav-link" runat="server">Home</a></li>
+                        <li class="nav-item"><a id="lnkSetting" class="nav-link" runat="server">Setting</a></li>
                     </ul>
                 </div>
                 <asp:Button ID="btnLogout" Text="Logout" UseSubmitBehavior="false" CssClass="btn btn-danger font-weight-bold" OnClick="btnLogout_Click" runat="server" />
             </div>
         </nav>
         <div class="container body-content">
-            <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
+            <asp:HiddenField ID="hdnStoreUserName" runat="server" ClientIDMode="Static"/>
+
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
     <asp:PlaceHolder runat="server">
-            <%: System.Web.Optimization.Scripts.Render("~/bundles/JQueryWithCommonJS") %>
+        
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+        <%: Scripts.Render("~/Scripts/Kendo/kendo.all.min.js") %>
+        <%: Scripts.Render("~/bundles/kendoLicxJS") %>
     </asp:PlaceHolder>
 </body>
 </html>

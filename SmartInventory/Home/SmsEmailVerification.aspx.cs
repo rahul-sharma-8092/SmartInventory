@@ -3,6 +3,7 @@ using Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
@@ -13,6 +14,7 @@ namespace SmartInventory.Home
     public partial class SmsEmailVerification : CommonFunc.PageBase
     {
         AuthDetails data = null;
+        string IpAddress = string.Empty;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,11 +46,13 @@ namespace SmartInventory.Home
                 
                 if (data != null && !string.IsNullOrEmpty(data.Email))
                 {
-                    int result = new BAL.AccountMgt().VerifyOTP(data.StoreUserID, data.Email, otp, StoreUserName);
+                    int result = BAL.AccountMgt.VerifyOTP(data.StoreUserID, data.Email, otp, StoreUserName);
                     if (result == 0)
                     {
                         // OTP Expired
                         data.IsOTPVerified = false;
+
+                        BAL.AccountMgt.TrackLoginHistory(StoreUserName, data.Email, IpAddress, true, 0);
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.OTPExpired}', 'error');", true);
                     }
                     else if (result == 1)
@@ -66,6 +70,8 @@ namespace SmartInventory.Home
                     {
                         // Invalid OTP
                         data.IsOTPVerified = false;
+
+                        BAL.AccountMgt.TrackLoginHistory(StoreUserName, data.Email, IpAddress, true, 0);
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.OTPInvalid}', 'error');", true);
                     }
                 }
@@ -96,7 +102,7 @@ namespace SmartInventory.Home
             if (auth != null && !string.IsNullOrEmpty(auth.Email))
             {
                 string OTP = new Random().Next(100000, 999999).ToString();
-                IsOTPStore = new BAL.AccountMgt().AddStoreUserOTP(auth.StoreUserID, OTP, StoreUserName);
+                IsOTPStore = BAL.AccountMgt.AddStoreUserOTP(auth.StoreUserID, OTP, StoreUserName);
 
                 if (IsOTPStore)
                 {
@@ -114,10 +120,9 @@ namespace SmartInventory.Home
 
                     if (IsEmailSent)
                     {
-                        new BAL.AccountMgt().AddEmailHistoryWithOTP(email, auth.StoreUserID, OTP, StoreUserName);
+                        BAL.AccountMgt.AddEmailHistoryWithOTP(email, auth.StoreUserID, OTP, StoreUserName);
                         // Show Notification - Otp send successfully
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Message.OTPSent}', 'success');", true);
-
                     }
                 }
                 else

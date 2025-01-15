@@ -47,7 +47,7 @@ namespace SmartInventory.Home
                     objTotp.Email = user[2].Trim();
                     objTotp.SecretKey = secretKey;
 
-                    int result = new BAL.AccountMgt().AddStoreUserTOTP(objTotp, StoreUserName);
+                    int result = BAL.AccountMgt.AddStoreUserTOTP(objTotp, StoreUserName);
                     if (result > 0)
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "showNotification", $"showNotification('{Common.Message.Added2FA}', 'success');", true);

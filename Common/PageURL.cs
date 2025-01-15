@@ -42,7 +42,10 @@ namespace Common
         public const string SaleDetails = "/Home/Sales/SaleDetails.aspx";
 
         // Settings
+        public const string AddUpdateCategories = "/Home/Settings/AddUpdateCategories.aspx";
+        public const string Setting = "/Home/Settings/Setting.aspx";
         public const string Configurations = "/Home/Settings/Configurations.aspx";
+        public const string ListCategories = "/Home/Settings/ListCategories.aspx";
 
         // Suppliers
         public const string AddEditSupplier = "/Home/Suppliers/AddEditSupplier.aspx";

@@ -39,13 +39,13 @@ namespace SmartInventory.Home
                     return;
                 }
 
-                Entity.SetPassword setPassword = new BAL.AccountMgt().ValidateResetPassToken(token, StoreUserName);
+                Entity.SetPassword setPassword = BAL.AccountMgt.ValidateResetPassToken(token, StoreUserName);
                 setPassword.Password = Common.Security.BCryptEncryption(password);
                 setPassword.ConfirmPassword = cnfPassword;
 
                 if (setPassword != null && setPassword.ReturnCode == 1 && !setPassword.IsGuidExpired && !string.IsNullOrEmpty(setPassword.Email))
                 {
-                    bool result = new BAL.AccountMgt().SetPassword(setPassword, StoreUserName);
+                    bool result = BAL.AccountMgt.SetPassword(setPassword, StoreUserName);
 
                     if (result)
                     {
@@ -83,7 +83,7 @@ namespace SmartInventory.Home
 
         private void ValidateLinkToken()
         {
-            Entity.SetPassword setPassword = new BAL.AccountMgt().ValidateResetPassToken(token, StoreUserName);
+            Entity.SetPassword setPassword = BAL.AccountMgt.ValidateResetPassToken(token, StoreUserName);
 
             if (setPassword != null && setPassword.ReturnCode == 1 && !setPassword.IsGuidExpired && !string.IsNullOrEmpty(setPassword.Email))
             {

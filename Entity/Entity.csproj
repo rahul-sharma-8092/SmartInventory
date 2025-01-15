@@ -43,8 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
+    <Compile Include="Categories.cs" />
     <Compile Include="EmailMsg.cs" />
     <Compile Include="EmpUsers.cs" />
+    <Compile Include="ExecptionErrror.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreDetails.cs" />
   </ItemGroup>

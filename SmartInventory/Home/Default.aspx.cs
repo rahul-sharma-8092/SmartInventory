@@ -3,6 +3,7 @@ using Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -48,10 +49,11 @@ namespace SmartInventory.Home
         {
             if (auth != null && !string.IsNullOrEmpty(auth.Email))
             {
-                string userData = auth.StoreUserID.ToString() + "|" + // StoreUserID
-                                  auth.FullName + "|" + // UserName
-                                  auth.Email + "|" + // Email
-                                  auth.GroupId + "|";  // GroupId
+                string userData = auth.StoreUserID.ToString() + "|" + // 0 - StoreUserID
+                                  auth.FullName + "|" + // 1 - UserName
+                                  auth.Email + "|" + // 2 - Email
+                                  auth.GroupId + "|" + // 3 - GroupId
+                                  StoreUserName + "|"; // 4 - StoreUserName
 
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, auth.FullName, DateTime.Now, DateTime.Now.AddMinutes(30), false, userData);
 
@@ -61,6 +63,8 @@ namespace SmartInventory.Home
                     Expires = DateTime.Now.AddMinutes(30),
                     HttpOnly = true
                 };
+
+                BAL.AccountMgt.TrackLoginHistory(StoreUserName, auth.Email, IpAddress, false, auth.StoreUserID);
 
                 Response.Cookies.Add(authCookie);
                 Response.Redirect("~/" + StoreUserName + PageURL.Dashboard);

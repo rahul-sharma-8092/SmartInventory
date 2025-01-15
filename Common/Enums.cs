@@ -139,4 +139,9 @@ namespace Common
         Warning = 6
     }
 
+    public enum SettingHandler
+    {
+        GetCategories = 1,
+        DeleteCategory = 2,
+    }
 }

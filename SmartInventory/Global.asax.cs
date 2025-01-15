@@ -33,7 +33,23 @@ namespace SmartInventory
 
                 // Store it in HttpContext or use it directly
                 HttpContext.Current.Items["StoreUserName"] = storeUserName;
+            }
+        }
 
+        void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            string storeUserName = HttpContext.Current.Items["StoreUserName"] as string ?? "";
+            string userStoreName = GetUserData()[4];
+
+            if (!string.IsNullOrEmpty(storeUserName) && !string.IsNullOrEmpty(userStoreName))
+            {
+                if (storeUserName.ToLower().Trim() != userStoreName.ToLower().Trim())
+                {
+                    FormsAuthentication.SignOut();
+
+                    Response.StatusCode = 403;
+                    Response.Redirect("~/" + storeUserName + PageURL.Login + "?StoreNameChange=" + HttpUtility.UrlEncode("1"));
+                }
             }
         }
 
@@ -70,8 +86,26 @@ namespace SmartInventory
                     .Replace("{{stackTrace}}", Convert.ToString(ex.StackTrace));
 
                 Common.EmailService.SendEmail(email);
+               
+                string StoreUserName = HttpContext.Current.Items["StoreUserName"] as string ?? "";
+
+                if (!string.IsNullOrEmpty(StoreUserName))
+                {
+                    ExecptionErrror obj = new ExecptionErrror();
+                    obj.StoreUserName = StoreUserName;
+                    obj.Message = Convert.ToString(ex.Message) ?? "";
+                    obj.InnerException = Convert.ToString(ex.InnerException) ?? "N/A";
+                    obj.StackTrace = Convert.ToString(ex.StackTrace) ?? "";
+                    obj.URL = Convert.ToString(url) ?? "";
+                    obj.IpAddress = userIp;
+                    obj.Browser = browser;
+
+                    BAL.ErrorMgt.LogErrorToDB(obj);
+                }
 
                 Server.ClearError();
+                
+                Response.StatusCode = 500;
                 //Response.Redirect("~/" + GetStoreUserName() + PageURL.PageNotFound);
             }
         }
@@ -79,6 +113,18 @@ namespace SmartInventory
         private string GetStoreUserName()
         {
             return HttpContext.Current.Items["StoreUserName"] as string;
+        }
+
+        private string[] GetUserData()
+        {
+            string[] userData = new String[10];
+            if (HttpContext.Current.User != null && HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                // StoreUserId|UserName|Email|GroupId|StoreUserName
+                // 1001|Tony Stark|tonystark@armyspy.com|1|Zudio
+                userData = ((System.Web.Security.FormsIdentity)HttpContext.Current.User.Identity).Ticket.UserData.Split('|');
+            }
+            return userData;
         }
     }
 }

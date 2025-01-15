@@ -63,9 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\LogTable.sql" />
-    <Build Include="Security\JarvisSQL.sql" />
-    <Build Include="Security\JarvisAI.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Stored Procedures\GetUserAuthDetailsByEmail.sql" />
     <Build Include="dbo\Tables\StoreUser.sql" />
     <Build Include="dbo\Tables\LoginHistory.sql" />
@@ -80,5 +77,11 @@
     <Build Include="dbo\Stored Procedures\SetPassword.sql" />
     <Build Include="dbo\Stored Procedures\GetUserTotpSecretKey.sql" />
     <Build Include="dbo\Stored Procedures\AddStoreUserTOTP.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Stored Procedures\TrackLoginHistory.sql" />
+    <Build Include="dbo\Stored Procedures\AddUpdateCategory.sql" />
+    <Build Include="dbo\Stored Procedures\AddErrorLog.sql" />
+    <Build Include="dbo\Stored Procedures\GetCategories.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteCategory.sql" />
   </ItemGroup>
 </Project>

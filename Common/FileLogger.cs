@@ -44,7 +44,7 @@ namespace Common
 
                 using (StreamWriter sw = new StreamWriter(logFileName, true))
                 {
-                    sw.WriteLine($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} [{level}] --> {message}");
+                    sw.WriteLine($"\n{DateTime.Now:dd/MM/yyyy HH:mm:ss} [{level}] --> {message}");
                 }
             }
             catch (Exception ex)

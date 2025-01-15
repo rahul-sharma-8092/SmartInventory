@@ -393,5 +393,39 @@ namespace DAL
             }
             return secretKey;
         }
+
+        public void TrackLoginHistory(string StoreUserName, int storeUserId, string email, string ipAddress, bool isFailed)
+        {
+            connString = CreateConnString(StoreUserName);
+
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "TrackLoginHistory";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string message = isFailed ? Common.Message.LoginFailed : Common.Message.LoginSuccess;
+
+                cmd.Parameters.AddWithValue("@StoreUserId", storeUserId);
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@IpAddress", ipAddress);
+                cmd.Parameters.AddWithValue("@Message", message);
+                cmd.Parameters.AddWithValue("@IsFailed", isFailed);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                WriteExceptionLog(ex, "AccountSQL.TrackLoginHistory");
+            }
+            finally
+            {
+                CloseConnection(conn, cmd);
+            }
+        }
     }
 }
